@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+  h1.text-center Register form
+  form.form-group(method='POST' action='/users')
+    .row
+      .col-6.mx-auto
+        label(for='') Name
+        input#name.form-control(type='text' name='name' placeholder='Name' aria-describedby='helpId')
+    .row
+      .col-6.mx-auto
+        label(for='') Email
+        input#email.form-control(type='email' name='email' placeholder='Email' aria-describedby='helpId')
+    .row
+      .col-6.mx-auto
+        label(for='') Password
+        input#password.form-control(type='password' name='password' placeholder='Password' aria-describedby='helpId')
+        button.btn.btn-primary(type="submit") Submit
+    //- .row
+    //-   .col-6.mx-auto
+    //-     label(for='') Role
+    //-     select#role.form-control(name='role')
+    //-       option(value='0') Admin
+    //-       option(value='1') Customer

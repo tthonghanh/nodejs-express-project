@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  name     String?
+  role     Int
+
+  // Relation
+  feedbacks Feedback[]
+  orders    Order[]
+  carts    Cart[]
+  passwords Password[]
+
+  @@map("users")
+}
+
+model Password {
+  id       String  @id @default(uuid())
+  password String
+  createAt DateTime @default(now())
+  deleteAt DateTime?
+  userId  String
+
+  // Relation
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("passwords")
+}
+
+model Category {
+  id      String @id @default(uuid())
+  imgLink String @map("img_link")
+  name    String
+
+  // Relation
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id            String  @id @default(uuid())
+  imgLink       String  @map("img_link")
+  productName   String  @map("product_name")
+  originalPrice Decimal @map("original_price")
+  price         Decimal
+  feedback      Int
+  categoryId    String?
+  description   String
+
+  // Relation
+  category        Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  feedbacks       Feedback[]
+  productOnOrders ProductOnOrder[]
+  carts           Cart[]
+
+  @@map("products")
+}
+
+model Feedback {
+  id        String  @id @default(uuid())
+  content   String
+  productId String
+  userID    String?
+
+  // Relation
+  user    User?   @relation(fields: [userID], references: [id], onDelete: SetNull)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("feedbacks")
+}
+
+model Order {
+  id               String   @id @default(uuid())
+  firstName        String   @map("first_name")
+  lastName         String   @map("last_name")
+  email            String
+  mobileNo         String   @map("mobile_no")
+  address1         String   @map("address_1")
+  address2         String   @map("address_2")
+  country          String
+  city             String
+  state            String
+  zipCode          String
+  payment          String
+  totalInvoicement Decimal  @default(0) @map("tota_invoicement")
+  createAt         DateTime @default(now())
+  updateAt         DateTime @updatedAt
+  userId           String
+
+  // Relation
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productOnOrders ProductOnOrder[]
+
+  @@map("orders")
+}
+
+model ProductOnOrder {
+  id        String  @id @default(uuid())
+  productId String?
+  orderId   String
+  quantity  Int
+  price     Decimal
+
+  // Relation
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("product_on_orders")
+}
+
+model Cart {
+  id        String  @id @default(uuid())
+  userId    String
+  productId String
+  quantity  Int
+  // Relation
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("carts")
+}

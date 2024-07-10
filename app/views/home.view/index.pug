@@ -1,0 +1,603 @@
+extends ../layout
+
+block content
+  .container-fluid
+    .row.bg-secondary.py-2.px-xl-5
+      .col-lg-6.d-none.d-lg-block
+        .d-inline-flex.align-items-center
+          a.text-dark(href='') FAQs
+          span.text-muted.px-2 |
+          a.text-dark(href='') Help
+          span.text-muted.px-2 |
+          a.text-dark(href='') Support
+      .col-lg-6.text-center.text-lg-right
+        .d-inline-flex.align-items-center
+          a.text-dark.px-2(href='')
+            i.fab.fa-facebook-f
+          a.text-dark.px-2(href='')
+            i.fab.fa-twitter
+          a.text-dark.px-2(href='')
+            i.fab.fa-linkedin-in
+          a.text-dark.px-2(href='')
+            i.fab.fa-instagram
+          a.text-dark.pl-2(href='')
+            i.fab.fa-youtube
+    .row.align-items-center.py-3.px-xl-5
+      .col-lg-3.d-none.d-lg-block
+        a.text-decoration-none(href='')
+          h1.m-0.display-5.font-weight-semi-bold
+            span.text-primary.font-weight-bold.border.px-3.mr-1 E
+            | Shopper
+      .col-lg-6.col-6.text-left
+        form(action='')
+          .input-group
+            input.form-control(type='text' placeholder='Search for products')
+            .input-group-append
+              span.input-group-text.bg-transparent.text-primary
+                i.fa.fa-search
+      .col-lg-3.col-6.text-right
+        a.btn.border(href='')
+          i.fas.fa-heart.text-primary
+          span.badge 0
+        a.btn.border(href='')
+          i.fas.fa-shopping-cart.text-primary
+          span.badge 0
+  // Topbar End
+  // Navbar Start
+  .container-fluid.mb-5
+    .row.border-top.px-xl-5
+      .col-lg-3.d-none.d-lg-block
+        a.btn.shadow-none.d-flex.align-items-center.justify-content-between.bg-primary.text-white.w-100(data-toggle='collapse' href='/categories' style='height: 65px; margin-top: -1px; padding: 0 30px;')
+          h6.m-0 Categories
+          i.fa.fa-angle-down.text-dark
+        nav#navbar-vertical.collapse.show.navbar.navbar-vertical.navbar-light.align-items-start.p-0.border.border-top-0.border-bottom-0
+          .navbar-nav.w-100.overflow-hidden(style='height: 410px')
+            //- .nav-item.dropdown
+            //-   a.nav-link(href='#' data-toggle='dropdown')
+            //-     | Dresses
+            //-     i.fa.fa-angle-down.float-right.mt-1
+            //-   .dropdown-menu.position-absolute.bg-secondary.border-0.rounded-0.w-100.m-0
+            //-     a.dropdown-item(href='') Men&apos;s Dresses
+            //-     a.dropdown-item(href='') Women&apos;s Dresses
+            //-     a.dropdown-item(href='') Baby&apos;s Dresses
+            each category in categories
+              a.nav-item.nav-link(href='')= category.name
+      .col-lg-9
+        nav.navbar.navbar-expand-lg.bg-light.navbar-light.py-3.py-lg-0.px-0
+          a.text-decoration-none.d-block.d-lg-none(href='')
+            h1.m-0.display-5.font-weight-semi-bold
+              span.text-primary.font-weight-bold.border.px-3.mr-1 E
+              | Shopper
+          button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarCollapse')
+            span.navbar-toggler-icon
+          #navbarCollapse.collapse.navbar-collapse.justify-content-between
+            .navbar-nav.mr-auto.py-0
+              a.nav-item.nav-link.active(href='') Home
+              a.nav-item.nav-link(href='/shops') Shop
+              a.nav-item.nav-link(href='/detail') Shop Detail
+              .nav-item.dropdown
+                a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown') Pages
+                .dropdown-menu.rounded-0.m-0
+                  a.dropdown-item(href='cart.html') Shopping Cart
+                  a.dropdown-item(href='checkout.html') Checkout
+              a.nav-item.nav-link(href='contact.html') Contact
+              a.nav-item.nav-link(href='/products') Products
+              a.nav-item.nav-link(href='/carts') Shopping Cart
+            .navbar-nav.ml-auto.py-0
+              a.nav-item.nav-link(href='/logins') Login
+              a.nav-item.nav-link(href='/users/new') Register
+        #header-carousel.carousel.slide(data-ride='carousel')
+          .carousel-inner
+            .carousel-item.active(style='height: 410px;')
+              img.img-fluid(src='img/carousel-1.jpg' alt='Image')
+              .carousel-caption.d-flex.flex-column.align-items-center.justify-content-center
+                .p-3(style='max-width: 700px;')
+                  h4.text-light.text-uppercase.font-weight-medium.mb-3 10% Off Your First Order
+                  h3.display-4.text-white.font-weight-semi-bold.mb-4 Fashionable Dress
+                  a.btn.btn-light.py-2.px-3(href='') Shop Now
+            .carousel-item(style='height: 410px;')
+              img.img-fluid(src='img/carousel-2.jpg' alt='Image')
+              .carousel-caption.d-flex.flex-column.align-items-center.justify-content-center
+                .p-3(style='max-width: 700px;')
+                  h4.text-light.text-uppercase.font-weight-medium.mb-3 10% Off Your First Order
+                  h3.display-4.text-white.font-weight-semi-bold.mb-4 Reasonable Price
+                  a.btn.btn-light.py-2.px-3(href='') Shop Now
+          a.carousel-control-prev(href='#header-carousel' data-slide='prev')
+            .btn.btn-dark(style='width: 45px; height: 45px;')
+              span.carousel-control-prev-icon.mb-n2
+          a.carousel-control-next(href='#header-carousel' data-slide='next')
+            .btn.btn-dark(style='width: 45px; height: 45px;')
+              span.carousel-control-next-icon.mb-n2
+  // Navbar End
+  // Featured Start
+  .container-fluid.pt-5
+    .row.px-xl-5.pb-3
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .d-flex.align-items-center.border.mb-4(style='padding: 30px;')
+          h1.fa.fa-check.text-primary.m-0.mr-3
+          h5.font-weight-semi-bold.m-0 Quality Product
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .d-flex.align-items-center.border.mb-4(style='padding: 30px;')
+          h1.fa.fa-shipping-fast.text-primary.m-0.mr-2
+          h5.font-weight-semi-bold.m-0 Free Shipping
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .d-flex.align-items-center.border.mb-4(style='padding: 30px;')
+          h1.fas.fa-exchange-alt.text-primary.m-0.mr-3
+          h5.font-weight-semi-bold.m-0 14-Day Return
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .d-flex.align-items-center.border.mb-4(style='padding: 30px;')
+          h1.fa.fa-phone-volume.text-primary.m-0.mr-3
+          h5.font-weight-semi-bold.m-0 24/7 Support
+  // Featured End
+  // Categories Start
+  .container-fluid.pt-5
+    .row.px-xl-5.pb-3
+      .col-lg-4.col-md-6.pb-1
+        .cat-item.d-flex.flex-column.border.mb-4(style='padding: 30px;')
+          p.text-right 15 Products
+          a.cat-img.position-relative.overflow-hidden.mb-3(href='')
+            img.img-fluid(src='img/cat-1.jpg' alt='')
+          h5.font-weight-semi-bold.m-0 Men&apos;s dresses
+      .col-lg-4.col-md-6.pb-1
+        .cat-item.d-flex.flex-column.border.mb-4(style='padding: 30px;')
+          p.text-right 15 Products
+          a.cat-img.position-relative.overflow-hidden.mb-3(href='')
+            img.img-fluid(src='img/cat-2.jpg' alt='')
+          h5.font-weight-semi-bold.m-0 Women&apos;s dresses
+      .col-lg-4.col-md-6.pb-1
+        .cat-item.d-flex.flex-column.border.mb-4(style='padding: 30px;')
+          p.text-right 15 Products
+          a.cat-img.position-relative.overflow-hidden.mb-3(href='')
+            img.img-fluid(src='img/cat-3.jpg' alt='')
+          h5.font-weight-semi-bold.m-0 Baby&apos;s dresses
+      .col-lg-4.col-md-6.pb-1
+        .cat-item.d-flex.flex-column.border.mb-4(style='padding: 30px;')
+          p.text-right 15 Products
+          a.cat-img.position-relative.overflow-hidden.mb-3(href='')
+            img.img-fluid(src='img/cat-4.jpg' alt='')
+          h5.font-weight-semi-bold.m-0 Accerssories
+      .col-lg-4.col-md-6.pb-1
+        .cat-item.d-flex.flex-column.border.mb-4(style='padding: 30px;')
+          p.text-right 15 Products
+          a.cat-img.position-relative.overflow-hidden.mb-3(href='')
+            img.img-fluid(src='img/cat-5.jpg' alt='')
+          h5.font-weight-semi-bold.m-0 Bags
+      .col-lg-4.col-md-6.pb-1
+        .cat-item.d-flex.flex-column.border.mb-4(style='padding: 30px;')
+          p.text-right 15 Products
+          a.cat-img.position-relative.overflow-hidden.mb-3(href='')
+            img.img-fluid(src='img/cat-6.jpg' alt='')
+          h5.font-weight-semi-bold.m-0 Shoes
+  // Categories End
+  // Offer Start
+  .container-fluid.offer.pt-5
+    .row.px-xl-5
+      .col-md-6.pb-4
+        .position-relative.bg-secondary.text-center.text-md-right.text-white.mb-2.py-5.px-5
+          img(src='img/offer-1.png' alt='')
+          .position-relative(style='z-index: 1;')
+            h5.text-uppercase.text-primary.mb-3 20% off the all order
+            h1.mb-4.font-weight-semi-bold Spring Collection
+            a.btn.btn-outline-primary.py-md-2.px-md-3(href='') Shop Now
+      .col-md-6.pb-4
+        .position-relative.bg-secondary.text-center.text-md-left.text-white.mb-2.py-5.px-5
+          img(src='img/offer-2.png' alt='')
+          .position-relative(style='z-index: 1;')
+            h5.text-uppercase.text-primary.mb-3 20% off the all order
+            h1.mb-4.font-weight-semi-bold Winter Collection
+            a.btn.btn-outline-primary.py-md-2.px-md-3(href='') Shop Now
+  // Offer End
+  // Products Start
+  .container-fluid.pt-5
+    .text-center.mb-4
+      h2.section-title.px-5
+        span.px-2 Trandy Products
+    .row.px-xl-5.pb-3
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-1.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-2.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-3.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-4.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-5.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-6.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-7.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-8.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+  // Products End
+  // Subscribe Start
+  .container-fluid.bg-secondary.my-5
+    .row.justify-content-md-center.py-5.px-xl-5
+      .col-md-6.col-12.py-5
+        .text-center.mb-2.pb-2
+          h2.section-title.px-5.mb-3
+            span.bg-secondary.px-2 Stay Updated
+          p
+            | Amet lorem at rebum amet dolores. Elitr lorem dolor sed amet diam labore at justo ipsum eirmod duo labore labore.
+        form(action='')
+          .input-group
+            input.form-control.border-white.p-4(type='text' placeholder='Email Goes Here')
+            .input-group-append
+              button.btn.btn-primary.px-4 Subscribe
+  // Subscribe End
+  // Products Start
+  .container-fluid.pt-5
+    .text-center.mb-4
+      h2.section-title.px-5
+        span.px-2 Just Arrived
+    .row.px-xl-5.pb-3
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-1.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-2.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-3.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-4.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-5.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-6.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-7.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+      .col-lg-3.col-md-6.col-sm-12.pb-1
+        .card.product-item.border-0.mb-4
+          .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
+            img.img-fluid.w-100(src='img/product-8.jpg' alt='')
+          .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
+            h6.text-truncate.mb-3 Colorful Stylish Shirt
+            .d-flex.justify-content-center
+              h6 $123.00
+              h6.text-muted.ml-2
+                del $123.00
+          .card-footer.d-flex.justify-content-between.bg-light.border
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-eye.text-primary.mr-1
+              | View Detail
+            a.btn.btn-sm.text-dark.p-0(href='')
+              i.fas.fa-shopping-cart.text-primary.mr-1
+              | Add To Cart
+  // Products End
+  // Vendor Start
+  .container-fluid.py-5
+    .row.px-xl-5
+      .col
+        .owl-carousel.vendor-carousel
+          .vendor-item.border.p-4
+            img(src='img/vendor-1.jpg' alt='')
+          .vendor-item.border.p-4
+            img(src='img/vendor-2.jpg' alt='')
+          .vendor-item.border.p-4
+            img(src='img/vendor-3.jpg' alt='')
+          .vendor-item.border.p-4
+            img(src='img/vendor-4.jpg' alt='')
+          .vendor-item.border.p-4
+            img(src='img/vendor-5.jpg' alt='')
+          .vendor-item.border.p-4
+            img(src='img/vendor-6.jpg' alt='')
+          .vendor-item.border.p-4
+            img(src='img/vendor-7.jpg' alt='')
+          .vendor-item.border.p-4
+            img(src='img/vendor-8.jpg' alt='')
+  // Vendor End
+  // Footer Start
+  .container-fluid.bg-secondary.text-dark.mt-5.pt-5
+    .row.px-xl-5.pt-5
+      .col-lg-4.col-md-12.mb-5.pr-3.pr-xl-5
+        a.text-decoration-none(href='')
+          h1.mb-4.display-5.font-weight-semi-bold
+            span.text-primary.font-weight-bold.border.border-white.px-3.mr-1 E
+            | Shopper
+        p
+          | Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.
+        p.mb-2
+          i.fa.fa-map-marker-alt.text-primary.mr-3
+          | 123 Street, New York, USA
+        p.mb-2
+          i.fa.fa-envelope.text-primary.mr-3
+          | info@example.com
+        p.mb-0
+          i.fa.fa-phone-alt.text-primary.mr-3
+          | +012 345 67890
+      .col-lg-8.col-md-12
+        .row
+          .col-md-4.mb-5
+            h5.font-weight-bold.text-dark.mb-4 Quick Links
+            .d-flex.flex-column.justify-content-start
+              a.text-dark.mb-2(href='index.html')
+                i.fa.fa-angle-right.mr-2
+                | Home
+              a.text-dark.mb-2(href='shop.html')
+                i.fa.fa-angle-right.mr-2
+                | Our Shop
+              a.text-dark.mb-2(href='detail.html')
+                i.fa.fa-angle-right.mr-2
+                | Shop Detail
+              a.text-dark.mb-2(href='cart.html')
+                i.fa.fa-angle-right.mr-2
+                | Shopping Cart
+              a.text-dark.mb-2(href='checkout.html')
+                i.fa.fa-angle-right.mr-2
+                | Checkout
+              a.text-dark(href='contact.html')
+                i.fa.fa-angle-right.mr-2
+                | Contact Us
+          .col-md-4.mb-5
+            h5.font-weight-bold.text-dark.mb-4 Quick Links
+            .d-flex.flex-column.justify-content-start
+              a.text-dark.mb-2(href='index.html')
+                i.fa.fa-angle-right.mr-2
+                | Home
+              a.text-dark.mb-2(href='shop.html')
+                i.fa.fa-angle-right.mr-2
+                | Our Shop
+              a.text-dark.mb-2(href='detail.html')
+                i.fa.fa-angle-right.mr-2
+                | Shop Detail
+              a.text-dark.mb-2(href='cart.html')
+                i.fa.fa-angle-right.mr-2
+                | Shopping Cart
+              a.text-dark.mb-2(href='checkout.html')
+                i.fa.fa-angle-right.mr-2
+                | Checkout
+              a.text-dark(href='contact.html')
+                i.fa.fa-angle-right.mr-2
+                | Contact Us
+          .col-md-4.mb-5
+            h5.font-weight-bold.text-dark.mb-4 Newsletter
+            form(action='')
+              .form-group
+                input.form-control.border-0.py-4(type='text' placeholder='Your Name' required='required')
+              .form-group
+                input.form-control.border-0.py-4(type='email' placeholder='Your Email' required='required')
+              div
+                button.btn.btn-primary.btn-block.border-0.py-3(type='submit') Subscribe Now
+    .row.border-top.border-light.mx-xl-5.py-4
+      .col-md-6.px-xl-0
+        p.mb-md-0.text-center.text-md-left.text-dark
+          | &copy; 
+          a.text-dark.font-weight-semi-bold(href='#') Your Site Name
+          | . All Rights Reserved. Designed
+          |                     by
+          a.text-dark.font-weight-semi-bold(href='https://htmlcodex.com') HTML Codex
+          br
+          |                     Distributed By 
+          a(href='https://themewagon.com' target='_blank') ThemeWagon
+      .col-md-6.px-xl-0.text-center.text-md-right
+        img.img-fluid(src='img/payments.png' alt='')
+  // Footer End
+  // Back to Top
+  a.btn.btn-primary.back-to-top(href='#')
+    i.fa.fa-angle-double-up
+
+

@@ -1,0 +1,42 @@
+extends ../layout
+
+block content
+  form.form-group(method='POST' action=`/products/${id}?_method=PUT`)
+    .row
+      .col-6.mx-auto
+        label(for='') Product Name
+        input#productName.form-control(type='text' name='productName' placeholder='Name' aria-describedby='helpId' value=product.productName)
+    .row
+      .col-6.mx-auto
+        label(for='') Short Name
+        input#productShortName.form-control(type='text' name='productShortName' placeholder='Short Name' aria-describedby='helpId' value=product.productShortName)
+    .row
+      .col-6.mx-auto
+        label(for='') Product Image
+        input#imgLink.form-control(type='text' name='imgLink' placeholder='Image' aria-describedby='helpId' value=product.imgLink)
+    .row
+      .col-6.mx-auto
+        label(for='') Category
+        select#categoryId.form-control(name='categoryId')
+          each category in categories
+            option(value=category.id selected=category.id==product.categoryId) #{category.name}
+    .row
+      .col-6.mx-auto
+        label(for='') Original Price
+        input#originalPrice.form-control(type='text' name='originalPrice' placeholder='Original Price' aria-describedby='helpId' value=product.originalPrice)
+    .row
+      .col-6.mx-auto
+        label(for='') Actual Price
+        input#price.form-control(type='text' name='price' placeholder='Actual Price' aria-describedby='helpId' value=product.price)
+    .row
+      .col-6.mx-auto
+        label(for='') Discription
+        textarea#description.form-control(name='description' placeholder='Description' aria-describedby='helpId')= product.description
+    .row
+      .col-6.mx-auto
+        label(for='') Number of feedback
+        input#feedback.form-control(type='text' name='feedback' placeholder='Discription' aria-describedby='helpId' value=product.feedback)
+        button.btn.btn-primary(type="submit") Submit
+  //- .col-6.mx-auto
+  //-   form(method="POST" action=`/products/${id}?_method=DELETE`)
+  //-     button.btn.btn-primary(type="submit") Delete product

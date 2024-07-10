@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="/css/bootstrap.min.css")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/owl.carousel.min.css')
+
+    link(rel='preconnect' href='https://fonts.gstatic.com')
+    link(href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap' rel='stylesheet')
+    // Font Awesome
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css' rel='stylesheet')
+    //- link(href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet')
+  body
+    #app
+      - if (messages.error)
+        .alert.alert-danger.text-center
+          ul
+            each error in messages.error
+              li= error
+      - if (messages.success)
+        .alert.alert-success.text-center= messages.success
+      block content
+
+    script(type="text/javascript" src="/js/bootstrap.min.js")
+    script(type="text/javascript" src="/js/jquery.min.js")
+    script(type="text/javascript" src="/js/vue.min.js")
+    script(type="text/javascript" src="/javascripts/generated/bundle.js")
+    script(type="text/javascript" src="/javascript/src/main.js")
+    script(type="text/javascript" src="/javascript/src/owl.carousel.min.js")
+    script(type="text/javascript" src="/javascript/src/easing.min.js")

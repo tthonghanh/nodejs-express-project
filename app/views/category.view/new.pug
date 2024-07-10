@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  form.form-group(method='POST' action='/categories')
+    .row
+      .col-6.mx-auto
+        label(for='') Name
+        input#name.form-control(type='text' name='name' placeholder='Name' aria-describedby='helpId')
+    .row
+      .col-6.mx-auto
+        label(for='') Image Link
+        input#email.form-control(type='text' name='imgLink' placeholder='Image Link' aria-describedby='helpId')
+        button.btn.btn-primary(type="submit") Submit
