@@ -4,9 +4,9 @@ import models from "../../models";
 
 export class HomeController extends ApplicationController {
   public async index(req: Request, res: Response) {
-    const users = await models.user.findMany({ })// goi danh sach
+    const user = req.session.userId;
     const categories = await models.category.findMany();
-    res.render("home.view/index", {users: users, categories: categories});
+    res.render("home.view/index", {user: user, categories: categories});
   }
 
   public async show(req: Request, res: Response) { // req: noi dung nguoi dung gui len tu client

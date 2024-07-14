@@ -1,0 +1,127 @@
+extends ../../layout
+
+block content
+  .admin
+    nav.navbar.navbar-expand-xl
+      .container.h-100
+        a.navbar-brand(href='/admin')
+          h1.tm-site-title.mb-0 Product Admin
+        button.navbar-toggler.ml-auto.mr-0(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+          i.fas.fa-bars.tm-nav-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.mx-auto.h-100
+            li.nav-item
+              a.nav-link(href='/admin')
+                i.fas.fa-tachometer-alt
+                |  Dashboard
+                span.sr-only (current)
+            li.nav-item.dropdown
+              a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                i.far.fa-file-alt
+                span
+                  | Reports 
+                  i.fas.fa-angle-down
+              .dropdown-menu(aria-labelledby='navbarDropdown')
+                a.dropdown-item(href='#') Daily Report
+                a.dropdown-item(href='#') Weekly Report
+                a.dropdown-item(href='#') Yearly Report
+            li.nav-item
+              a.nav-link.active(href='/admin/products')
+                i.fas.fa-shopping-cart
+                |  Products
+            li.nav-item
+              a.nav-link(href='accounts.html')
+                i.far.fa-user
+                |  Accounts
+            li.nav-item.dropdown
+              a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                i.fas.fa-cog
+                span
+                  | Settings 
+                  i.fas.fa-angle-down
+              .dropdown-menu(aria-labelledby='navbarDropdown')
+                a.dropdown-item(href='#') Profile
+                a.dropdown-item(href='#') Billing
+                a.dropdown-item(href='#') Customize
+          ul.navbar-nav
+            li.nav-item
+              a.nav-link.d-block(href='login.html')
+                | Admin, 
+                b Logout
+    .container.mt-5
+      .row.tm-content-row
+        .col-sm-12.col-md-12.col-lg-8.col-xl-8.tm-block-col
+          .tm-bg-primary-dark.tm-block.tm-block-products
+            .tm-product-table-container
+              table.table.table-hover.tm-table-small.tm-product-table
+                thead
+                  tr
+                    th(scope='col') &nbsp;
+                    th(scope='col') PRODUCT NAME
+                    th(scope='col') CATEGORY
+                    th(scope='col') ORIGINAL PRICE
+                    th(scope='col') ACTUAL PRICE
+                    th(scope='col') &nbsp;
+                tbody
+                  each product in products
+                    tr
+                      th(scope='row')
+                        input(type='checkbox')
+                      td.tm-product-name #{product.productName}
+                      td #{product.category.name}
+                      td #{product.originalPrice}
+                      td #{product.price}
+                      td
+                        //- a.tm-product-delete-link(href='#')
+                        //-   i.far.fa-trash-alt.tm-product-delete-icon
+                        form(method="POST" action=`/admin/products/${product.id}?_method=DELETE`)
+                          button.tm-product-delete-link(type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
+                            i.far.fa-trash-alt.tm-product-delete-icon
+                          // Modal
+                          #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                            .modal-dialog
+                              .modal-content
+                                .modal-header
+                                  h5#exampleModalLabel.modal-title Delete product
+                                  button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                                .modal-body
+                                  | Do you want to delete this product?
+                                .modal-footer
+                                  button.btn.btn-secondary(type='button' data-bs-dismiss='modal') No
+                                  button.btn.btn-primary(type='submit') Yes
+                        a.tm-product-delete-link(type='button' href=`/admin/products/${product.id}/edit`)
+                          i.far.fa-edit.tm-product-delete-icon
+            // table container
+            a.btn.btn-primary.btn-block.text-uppercase.mb-3(href='/admin/products/new') Add new product
+            //- button.btn.btn-primary.btn-block.text-uppercase
+            //-   | Delete selected products
+        .col-sm-12.col-md-12.col-lg-4.col-xl-4.tm-block-col
+          .tm-bg-primary-dark.tm-block.tm-block-product-categories
+            h2.tm-block-title Product Categories
+            .tm-product-table-container
+              table.table.tm-table-small.tm-product-table
+                tbody
+                  each category in categories
+                    tr
+                      td.tm-product-name #{category.name}
+                      td.p-0
+                        form(method="POST" action=`/admin/categories/${category.id}?_method=DELETE`)
+                          button.tm-product-delete-link(type='button' data-bs-toggle='modal' data-bs-target='#exampleModalCategory')
+                            i.far.fa-trash-alt.tm-product-delete-icon
+                          // Modal
+                          #exampleModalCategory.modal.fade(tabindex='-1' aria-labelledby='exampleModalCategoryLabel' aria-hidden='true')
+                            .modal-dialog
+                              .modal-content
+                                .modal-header
+                                  h5#exampleModalLabel.modal-title Delete Category
+                                  button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                                .modal-body
+                                  | Do you want to delete this category?
+                                .modal-footer
+                                  button.btn.btn-secondary(type='button' data-bs-dismiss='modal') No
+                                  button.btn.btn-primary(type='submit') Yes
+                      td.p-0
+                        a.tm-product-delete-link(type='button' href=`/admin/categories/${category.id}/edit`)
+                          i.far.fa-edit.tm-product-delete-icon
+            // table container
+            a.btn.btn-primary.btn-block.text-uppercase.mb-3(href='/admin/categories/new') Add new category

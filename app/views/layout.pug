@@ -14,12 +14,28 @@ html
   body
     #app
       - if (messages.error)
-        .alert.alert-danger.text-center
+        .toast.show.position-fixed.top-0.end-0.p-3.bg-danger.z-3
+          .toast-header
+            strong.me-auto Error
+            button.btn-close(type='button' data-bs-dismiss='toast')
+          .toast-body.text-light
+            ul
+              each error in messages.error
+                li= error
+      - if (messages.success)
+        .toast.show.position-fixed.top-0.end-0.p-3.bg-success.z-3
+          .toast-header
+            strong.me-auto Success
+            button.btn-close(type='button' data-bs-dismiss='toast')
+          .toast-body.text-light
+            p= messages.success
+      //- - if (messages.error)
+      //-   .alert.alert-danger.text-center
           ul
             each error in messages.error
               li= error
-      - if (messages.success)
-        .alert.alert-success.text-center= messages.success
+      //- - if (messages.success)
+      //-   .alert.alert-success.text-center= messages.success
       block content
 
     script(type="text/javascript" src="/js/bootstrap.min.js")

@@ -1,32 +1,34 @@
-import { HomeController, ShopController, DetailController, ContactController, CheckoutController, CartController, LoginController } from "@controllers";
+import { HomeController } from "@controllers";
 import { Router } from "express";
 import { RestActions } from "../enum";
-import { ShopRoute } from "./shop.route";
-import { UserRoute } from "./user.route";
-import { ProductRoute } from "./product.route";
-import { CategoryRoute } from "./category.route";
 import { CartRoute } from "./cart.route";
+import { CategoryRoute } from "./category.route";
 import { CheckoutRoute } from "./checkout.route";
 import { LoginRoute } from "./login.route";
+import { ShopRoute } from "./shop.route";
+import { UserRoute } from "./user.route";
+import { AdminHomeRoute } from "./admin.route";
 
 export class Route {
   private static path = Router();
 
   public static draw() {
-    Route.resource("/", this.path, HomeController, { only: [RestActions.Index, RestActions.Show] });
     this.path.use("/shops", ShopRoute.draw());
     this.path.use("/users", UserRoute.draw());
-    this.path.use("/products", ProductRoute.draw());
     this.path.use("/categories", CategoryRoute.draw());
     this.path.use("/carts", CartRoute.draw());
     this.path.use("/checkouts", CheckoutRoute.draw());
     this.path.use("/logins", LoginRoute.draw());
+    this.path.use("/admin", AdminHomeRoute.draw());
+
+    Route.resource(this.path, HomeController, {
+      only: [RestActions.Index, RestActions.Show],
+    });
 
     return this.path;
   }
 
   public static resource(
-    uri: string,
     path: Router,
     CustomController: any,
     filter?: {
@@ -41,27 +43,26 @@ export class Route {
     const action = new CustomController();
 
     if (this.isAllowAccess(filter?.only, filter?.except, RestActions.Index))
-      path.route(uri).get(action.index);
+      path.route("/").get(action.index);
 
     if (this.isAllowAccess(filter?.only, filter?.except, RestActions.New))
-      path.route(`${uri}/new`).get(action.new);
+      path.route(`/new`).get(action.new);
 
     if (this.isAllowAccess(filter?.only, filter?.except, RestActions.Show))
-      path.route(`${uri}/:id`).get(action.show);
+      path.route(`/:id`).get(action.show);
 
     if (this.isAllowAccess(filter?.only, filter?.except, RestActions.Create))
-      path.route(uri).post(action.create);
+      path.route("/").post(action.create);
 
     if (this.isAllowAccess(filter?.only, filter?.except, RestActions.Edit))
-      path.route(`${uri}/:id/edit`).get(action.edit);
+      path.route(`/:id/edit`).get(action.edit);
 
     if (this.isAllowAccess(filter?.only, filter?.except, RestActions.Update))
-      path.route(`${uri}/:id`).put(action.update);
+      path.route(`/:id`).put(action.update);
 
     if (this.isAllowAccess(filter?.only, filter?.except, RestActions.Destroy))
-      path.route(`${uri}/:id`).delete(action.destroy);
+      path.route(`/:id`).delete(action.destroy);
   }
-
 
   private static isAllowAccess(
     only: RestActions[] | undefined,

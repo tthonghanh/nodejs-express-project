@@ -1,13 +1,15 @@
+import { UserController } from "@controllers";
 import { Router } from "express";
-import { RestActions } from "../../enum";
 import { Route } from "..";
-import { UserController} from "@controllers";
+import { RestActions } from "../../enum";
 
 export class UserRoute {
   private static path = Router();
 
   public static draw() {
-    Route.resource("", this.path, UserController, { only: [RestActions.New, RestActions.Create] });
+    Route.resource(this.path, UserController, {
+      only: [RestActions.New, RestActions.Create],
+    });
 
     return this.path;
   }

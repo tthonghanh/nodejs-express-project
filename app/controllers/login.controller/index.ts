@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import models from "../../models";
 import { ApplicationController } from "../application.controller";
+import md5 from 'md5'
 
 declare module "express-session" {
   interface SessionData {
@@ -18,36 +19,32 @@ export class LoginController extends ApplicationController {
     const user = await models.user.findUnique({
       where: {
         email: email,
+        passwords: {
+          some: {
+            password: md5(password),
+            deleteAt: null,
+          },
+        },
       },
     });
 
-    if (user) {
-      const findPassword = await models.password.findMany({
-        // find all password of this user
-        where: {
-          userId: user.id,
-        },
-      });
-
-      for (let i = 0; i < findPassword.length; i++) {
-        if (password == findPassword[i].password) {
-          if (findPassword[i].deleteAt == null) {
-            // current password
-            req.session.userId = user.id;
-            req.flash("success", "Login successfully");
-            return res.redirect("/");
-          } else {
-            req.flash("error", "This password has been changed before");
-            return res.redirect("/logins");
-          }
-        }
-      }
+    if (!user) {
+      req.flash("error", "Email or password is invalid");
+      return res.redirect("/logins");
     }
 
-    req.flash(
-      "error",
-      "Your email or password is incorrect. Please login again."
-    );
-    return res.redirect("/logins");
+    req.session.userId = user.id;
+    req.flash("success", "Login successfully");
+    if (user.role == 0) return res.redirect("/admin");
+    return res.redirect("/");
+  }
+
+  public async destroy(req: Request, res: Response) {
+    req.session.destroy((err: Error) => {
+      if (err) console.log(err);
+      else {
+        res.redirect("/");
+      }
+    });
   }
 }

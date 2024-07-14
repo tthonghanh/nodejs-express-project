@@ -55,7 +55,6 @@ model Product {
   productName   String  @map("product_name")
   originalPrice Decimal @map("original_price")
   price         Decimal
-  feedback      Int
   categoryId    String?
   description   String
 

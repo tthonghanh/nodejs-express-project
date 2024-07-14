@@ -1,0 +1,71 @@
+extends ../../layout
+
+block content
+  .admin
+    nav.navbar.navbar-expand-xl
+      .container.h-100
+        a.navbar-brand(href='/admin')
+          h1.tm-site-title.mb-0 Product Admin
+        button.navbar-toggler.ml-auto.mr-0(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+          i.fas.fa-bars.tm-nav-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.mx-auto.h-100
+            li.nav-item
+              a.nav-link(href='/admin')
+                i.fas.fa-tachometer-alt
+                |  Dashboard
+                span.sr-only (current)
+            li.nav-item.dropdown
+              a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                i.far.fa-file-alt
+                span
+                  | Reports 
+                  i.fas.fa-angle-down
+              .dropdown-menu(aria-labelledby='navbarDropdown')
+                a.dropdown-item(href='#') Daily Report
+                a.dropdown-item(href='#') Weekly Report
+                a.dropdown-item(href='#') Yearly Report
+            li.nav-item
+              a.nav-link.active(href='/admin/products')
+                i.fas.fa-shopping-cart
+                |  Products
+            li.nav-item
+              a.nav-link(href='accounts.html')
+                i.far.fa-user
+                |  Accounts
+            li.nav-item.dropdown
+              a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                i.fas.fa-cog
+                span
+                  | Settings 
+                  i.fas.fa-angle-down
+              .dropdown-menu(aria-labelledby='navbarDropdown')
+                a.dropdown-item(href='#') Profile
+                a.dropdown-item(href='#') Billing
+                a.dropdown-item(href='#') Customize
+          ul.navbar-nav
+            li.nav-item
+              a.nav-link.d-block(href='login.html')
+                | Admin, 
+                b Logout
+    .container.tm-mt-big.tm-mb-big
+      .row
+        .col-xl-9.col-lg-10.col-md-12.col-sm-12.mx-auto
+          .tm-bg-primary-dark.tm-block.tm-block-h-auto
+            .row
+              .col-12
+                h2.tm-block-title.d-inline-block Add Category
+            form.tm-edit-product-form(method="POST" action='/admin/categories')
+              .row.tm-edit-product-row
+                .col-xl-12.col-lg-12.col-md-12
+                  .form-group.mb-3
+                    label(for='name')
+                      | Category Name
+                    input#name.form-control.validate(name='name' type='text' required='')
+                .col-xl-12.col-lg-12.col-md-12
+                  .form-group.mb-3
+                    label(for='imageLink')
+                      | Category Image Link
+                    input#imgLink.form-control.validate(name='imgLink' type='text' required='')
+              .col-12
+                button.btn.btn-primary.btn-block.text-uppercase(type='submit') Add Category Now

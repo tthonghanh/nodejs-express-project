@@ -1,31 +1,25 @@
 import { Request, Response } from "express";
-import models from "../../models";
-import { ApplicationController } from "../application.controller";
+import models from "../../../models";
+import { ApplicationController } from "../../application.controller";
 
-export class ProductController extends ApplicationController {
+export class ProductAdminController extends ApplicationController {
   public async index(req: Request, res: Response) {
-    const categories = await models.category.findMany();
-    const products = await models.product.findMany();
-    res.render("product.view/index", {
-      categories: categories,
-      products: products,
-    });
-  }
-
-  public async show(req: Request, res: Response) {
-    const product = await models.product.findUnique({
-      where: {
-        id: req.params.id,
+    const products = await models.product.findMany({
+      include: {
+        category: true,
       },
     });
-    res.render("product.view/show", { product: product });
+    const categories = await models.category.findMany();
+    res.render("admin/product.admin.view/index", {
+      products: products,
+      categories: categories,
+    });
   }
 
   public async new(req: Request, res: Response) {
     const categories = await models.category.findMany();
-    res.render("product.view/new", { categories: categories });
+    res.render("admin/product.admin.view/new", { categories: categories });
   }
-
   public async create(req: Request, res: Response) {
     const {
       productName,
@@ -34,8 +28,9 @@ export class ProductController extends ApplicationController {
       originalPrice,
       price,
       description,
-      feedback,
     } = req.body;
+    console.log(req.body);
+
     await models.product.create({
       data: {
         productName,
@@ -44,10 +39,9 @@ export class ProductController extends ApplicationController {
         originalPrice: +originalPrice,
         price: +price,
         description,
-        feedback: +feedback,
       },
     });
-    res.redirect("/products");
+    res.redirect("/admin/products");
   }
 
   public async edit(req: Request, res: Response) {
@@ -58,7 +52,7 @@ export class ProductController extends ApplicationController {
         id: id,
       },
     });
-    res.render("product.view/edit", {
+    res.render("admin/product.admin.view/edit", {
       id: id,
       product: product,
       categories: categories,
@@ -74,7 +68,6 @@ export class ProductController extends ApplicationController {
       originalPrice,
       price,
       description,
-      feedback,
     } = req.body;
     await models.product.update({
       where: {
@@ -87,10 +80,9 @@ export class ProductController extends ApplicationController {
         originalPrice: +originalPrice,
         price: +price,
         description,
-        feedback: +feedback,
       },
     });
-    res.redirect("/products");
+    res.redirect("/admin/products");
   }
 
   public async destroy(req: Request, res: Response) {
@@ -99,6 +91,6 @@ export class ProductController extends ApplicationController {
         id: req.params.id,
       },
     });
-    res.redirect("/products");
+    res.redirect("/admin/products");
   }
 }

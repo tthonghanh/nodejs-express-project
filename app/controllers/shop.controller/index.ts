@@ -8,6 +8,12 @@ export class ShopController extends ApplicationController {
     res.render("shop.view/index", { products: products });
   }
   public show(req: Request, res: Response) {
-    res.render("shop.view/show");
+    const productId = req.params.id;
+    const productDetail = models.product.findUnique({
+      where: {
+        id: productId,
+      },
+    });
+    res.render("shop.view/show", { productDetail: productDetail });
   }
 }

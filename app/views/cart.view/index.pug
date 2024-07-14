@@ -88,7 +88,6 @@ block content
                   a.dropdown-item(href='cart.html') Shopping Cart
                   a.dropdown-item(href='checkout.html') Checkout
               a.nav-item.nav-link(href='contact.html') Contact
-              a.nav-item.nav-link(href='/products') Products
               a.nav-item.nav-link.active(href='/carts') Shopping Cart
             .navbar-nav.ml-auto.py-0
               a.nav-item.nav-link(href='') Login
@@ -134,9 +133,25 @@ block content
                         i.fa.fa-plus
                 td.align-middle $#{item.quantity * item.product.price}
                 td.align-middle
+                  // Button trigger modal
                   form(method="POST" action=`/carts/${item.id}?_method=DELETE`)
-                    button.btn.btn-sm.btn-primary(type="submit")
+                    button.btn.btn-sm.btn-primary(type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
                       i.fa.fa-times
+                    // Modal
+                    #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#exampleModalLabel.modal-title Delete product
+                            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                          .modal-body
+                            | Do you want to delete this product from your cart?
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-bs-dismiss='modal') No
+                            button.btn.btn-primary(type='submit') Yes
+                  //- form(method="POST" action=`/carts/${item.id}?_method=DELETE`)
+                  //-   button.btn.btn-sm.btn-primary(type="submit")
+                  //-     i.fa.fa-times
       .col-lg-4
         form.mb-5(action='')
           .input-group

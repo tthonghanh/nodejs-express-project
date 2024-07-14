@@ -1,24 +1,20 @@
 import { Request, Response } from "express";
 import models from "../../models";
 import { ApplicationController } from "../application.controller";
+import { AuthenticationMiddleware } from "../../middlewares/authentication.middleware";
 
 export class CartController extends ApplicationController {
   public async index(req: Request, res: Response) {
-    const userId = req.session.userId;
-    if (userId) {
-      const cartItems = await models.cart.findMany({
-        where: {
-          userId: userId,
-        },
-        include: {
-          product: true,
-        },
-      });
-      res.render("cart.view/index", { cartItems: cartItems });
-    } else {
-      req.flash("error", "You have not logged in yet");
-      res.redirect("/");
-    }
+    const currentUser = await ApplicationController.currentUser(req);
+    const cartItems = await models.cart.findMany({
+      where: {
+        userId: currentUser!.id,
+      },
+      include: {
+        product: true,
+      },
+    });
+    res.render("cart.view/index", { cartItems: cartItems });
   }
   public async show(req: Request, res: Response) {
     res.render("cart.view/show");
@@ -76,7 +72,7 @@ export class CartController extends ApplicationController {
         id: req.params.id,
       },
     });
-
+    req.flash("success", "Product is deleted from cart")
     res.redirect("/carts");
   }
 }

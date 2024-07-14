@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import md5 from "md5";
 import models from "../../models";
 import { ApplicationController } from "../application.controller";
 
@@ -25,21 +26,18 @@ export class UserController extends ApplicationController {
       return res.redirect("/users/new");
     }
 
-    const newUser = await models.user.create({
+    await models.user.create({
       data: {
         name,
         email,
         role: 1,
+        passwords: {
+          create: {
+            password: md5(password),
+          },
+        },
       },
     });
-
-    await models.password.create({
-      data: {
-        userId: newUser.id,
-        password: password,
-        deleteAt: null
-      }
-    })
 
     req.flash("success", "Register successfully");
     res.redirect("/");

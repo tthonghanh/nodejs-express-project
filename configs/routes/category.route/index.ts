@@ -7,7 +7,7 @@ export class CategoryRoute {
   private static path = Router();
 
   public static draw() {
-    Route.resource("", this.path, CategoryController, { except: [RestActions.Show] });
+    Route.resource(this.path, CategoryController, { except: [RestActions.Show] });
 
     return this.path;
   }

@@ -7,7 +7,7 @@ export class CheckoutRoute {
   private static path = Router();
 
   public static draw() {
-    Route.resource("", this.path, CheckoutController, {
+    Route.resource(this.path, CheckoutController, {
       only: [RestActions.Index, RestActions.New, RestActions.Create],
     });
 
