@@ -84,10 +84,10 @@ block content
               a.nav-item.nav-link(href='/carts') Shopping Cart
             .navbar-nav.ml-auto.py-0
               - if (user)
-                form(method="POST" action=`/logins/${user}?_method=DELETE`)
+                form(method="POST" action=`/auth/${user}?_method=DELETE`)
                   button.nav-item.nav-link(type="submit") Logout
               - else
-                a.nav-item.nav-link(href='/logins') Login
+                a.nav-item.nav-link(href='/auth') Login
               a.nav-item.nav-link(href='/users/new') Register
         #header-carousel.carousel.slide(data-ride='carousel')
           .carousel-inner

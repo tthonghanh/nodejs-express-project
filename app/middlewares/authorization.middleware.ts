@@ -7,10 +7,10 @@ export class AuthorizationMiddleware extends ApplicationMiddleware {
 
     if (!currentUser) {
       req.flash("error", "You have not logged in yet.");
-      return res.redirect("/logins");
+      return res.redirect("/auth");
     } else if (currentUser.role != 0) {
       req.flash("error", "You are not admin");
-      return res.redirect("/logins");
+      return res.redirect("/auth");
     }
 
     next();

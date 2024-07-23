@@ -13,8 +13,11 @@ block content
           input(type='password' name='pswd' placeholder='Password' required='')
           button Sign up
       .login
-        form(method="POST" action="/logins")
+        form(method="POST" action="/auth")
           label(for='chk' aria-hidden='true') Login
           input(type='email' name='email' placeholder='Email' required='')
           input(type='password' name='password' placeholder='Password' required='')
+          a(href="/auth/google")
+            i.fab.fa-google
+            span Login with Google
           button(type="submit") Login

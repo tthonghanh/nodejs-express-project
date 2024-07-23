@@ -106,7 +106,7 @@ block content
   // Page Header End
   // Checkout Start
   .container-fluid.pt-5
-    form(method="POST" action="/checkouts")
+    form(method="POST" action="/checkouts/payment")
       .row.px-xl-5
         .col-lg-8
           .mb-4
@@ -173,16 +173,17 @@ block content
               h4.font-weight-semi-bold.m-0 Payment
             .card-body
               label.custom-control.custom-radio.d-block
-                  input#paypal.custom-control-input(type='radio' name='payment' value="Paypal")
-                  .custom-control-label(for='paypal') Paypal
+                  input#paypal.custom-control-input(type='radio' name='payment' value="VNPAYQR")
+                  .custom-control-label(for='VNPAYQR') VNPAYQR
               label.custom-control.custom-radio.d-block
-                  input#directcheck.custom-control-input(type='radio' name='payment' value="Direct Check")
-                  .custom-control-label(for='directcheck') Direct Check
+                  input#directcheck.custom-control-input(type='radio' name='payment' value="VNBANK")
+                  .custom-control-label(for='VNBANK') VNBANK
               label.custom-control.custom-radio.d-block
-                  input#banktransfer.custom-control-input(type='radio' name='payment' value="Bank Transfer")
-                  .custom-control-label(for='banktransfer') Bank Transfer
+                  input#banktransfer.custom-control-input(type='radio' name='payment' value="INTCARD")
+                  .custom-control-label(for='INTCARD') INTCARD
             .card-footer.border-secondary.bg-transparent
               button.btn.btn-lg.btn-block.btn-primary.font-weight-bold.my-3.py-3(type="submit") Place Order
+              //- a.btn.btn-lg.btn-block.btn-primary.font-weight-bold.my-3.py-3(href="/checkouts/payment") Place Order
   // Checkout End
   // Footer Start
   .container-fluid.bg-secondary.text-dark.mt-5.pt-5

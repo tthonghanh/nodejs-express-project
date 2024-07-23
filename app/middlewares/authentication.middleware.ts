@@ -7,7 +7,7 @@ export class AuthenticationMiddleware extends ApplicationMiddleware {
 
     if (!currentUser) {
       req.flash("error", "You have not logged in yet.");
-      return res.redirect("/logins");
+      return res.redirect("/auth");
     }
 
     next();

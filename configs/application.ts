@@ -1,14 +1,21 @@
 import { exec } from "child_process";
 import cookieParser from "cookie-parser";
 import express, { Express, NextFunction, Request, Response } from "express";
+import fileUpload from "express-fileupload";
 import flash from "express-flash";
 import expressSession from "express-session";
 import createError from "http-errors";
+import methodOverride from "method-override";
+import multer from "multer";
 import { join, resolve } from "path";
 import serverless from "serverless-http";
 import env from "./env";
 import { Route } from "./routes";
-import methodOverride from "method-override";
+import fs from 'fs-extra'
+import { ProductAdminController } from "../app/controllers";
+import bodyParser from 'body-parser'
+import { fileFilter } from "./multer";
+import path from 'path'
 
 declare module "express-session" {
   interface SessionData {
@@ -16,13 +23,36 @@ declare module "express-session" {
   }
 }
 
+// const storage = multer.diskStorage({
+//       destination: (req, file, cb) => {
+//         cb(null, '/uploads')
+//       },
+//       filename: (req, file, cb) => {
+//         cb(null, file.fieldname + "-" + Date.now());
+//       },
+//     });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '/uploads');
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().valueOf() + path.extname(file.originalname));
+    }
+  }),
+});
+
 class Application {
   private readonly port = env.PORT || "3000";
   private readonly app: Express = express();
   // private session = require('express-session');
   // private readonly methodOverride = require("method-override");
+  // private storage;
+  // private upload;
 
   constructor() {
+
     this.app.set("views", join(resolve("./app"), "views"));
     this.app.set("view engine", "pug");
 
@@ -31,15 +61,20 @@ class Application {
     this.app.use(cookieParser());
     this.app.use(methodOverride("_method"));
     this.app.use(cookieParser("keyboard cat"));
-    this.app.use(expressSession({
-      secret: 'hjjdbjsabca',
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        maxAge: 60000
-      }
-    }));
+    this.app.use(
+      expressSession({
+        secret: "hjjdbjsabca",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          maxAge: 60000,
+        },
+      })
+    );
     this.app.use(flash());
+    // this.app.use(fileUpload());
+    this.app.use(bodyParser.urlencoded({extended: false}));
+    // app.use(multer({ storage: storage, fileFilter: fileFilter }));
 
     this.app.use(express.static(join(resolve("app"), "assets")));
     this.app.use(
@@ -65,6 +100,7 @@ class Application {
   }
 
   mountRoutes() {
+    this.app.post('/admin/products', <any>upload.fields([{name: 'image'}]), (new ProductAdminController()).create);
     this.app.use(Route.draw());
   }
 

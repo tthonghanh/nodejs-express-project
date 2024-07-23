@@ -1,6 +1,20 @@
 import { Request, Response } from "express";
+// import fs from "fs";
+import fs from "fs-extra";
+import multer from "multer";
 import models from "../../../models";
 import { ApplicationController } from "../../application.controller";
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+const upload = <any>multer({storage: storage}).single("image");
 
 export class ProductAdminController extends ApplicationController {
   public async index(req: Request, res: Response) {
@@ -20,28 +34,48 @@ export class ProductAdminController extends ApplicationController {
     const categories = await models.category.findMany();
     res.render("admin/product.admin.view/new", { categories: categories });
   }
-  public async create(req: Request, res: Response) {
-    const {
-      productName,
-      imgLink,
-      categoryId,
-      originalPrice,
-      price,
-      description,
-    } = req.body;
-    console.log(req.body);
 
-    await models.product.create({
-      data: {
-        productName,
-        imgLink,
-        categoryId,
-        originalPrice: +originalPrice,
-        price: +price,
-        description,
-      },
-    });
+  public async create(req: Request, res: Response) {
+    upload(req, res, async (err: any) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      if (!req.file) {
+        return res.status(400).send("Image file is required.");
+      }
+
+    const { productName, categoryId, originalPrice, price, description } = req.body;
+    const image = req.file!;
+
+    if (!req.file) {
+      return res.status(400).send("Image file is required.");
+    }
+
+    // Read image file and convert to base64
+    const img = fs.readFileSync(image.path);
+    const encode_image = img.toString("base64");
+    const finalImg = {
+      contentType: image.mimetype,
+      image: Buffer.from(encode_image, "base64"),
+    };
+
+    // Save product with image
+    // await models.product.create({
+    //   data: {
+    //     productName,
+    //     image: finalImg.image,
+    //     categoryId,
+    //     originalPrice,
+    //     price,
+    //     description,
+    //   },
+    // });
+
+    // Optionally delete the uploaded file if no longer needed
+    fs.unlinkSync(image.path);
+
     res.redirect("/admin/products");
+    });
   }
 
   public async edit(req: Request, res: Response) {
@@ -63,7 +97,7 @@ export class ProductAdminController extends ApplicationController {
     const id = req.params.id;
     const {
       productName,
-      imgLink,
+      image,
       categoryId,
       originalPrice,
       price,
@@ -75,7 +109,7 @@ export class ProductAdminController extends ApplicationController {
       },
       data: {
         productName,
-        imgLink,
+        image,
         categoryId,
         originalPrice: +originalPrice,
         price: +price,
