@@ -51,7 +51,7 @@ model Category {
 
 model Product {
   id            String  @id @default(uuid())
-  image         Bytes  @map("img_link")
+  image         Bytes  @map("image")
   productName   String  @map("product_name")
   originalPrice Decimal @map("original_price")
   price         Decimal

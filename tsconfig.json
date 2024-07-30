@@ -33,12 +33,13 @@
       "@configs": ["configs"],
       "@configs/*": ["configs/*"],
       "@application": ["configs/application"],
+      "@mail": ["configs/mail"],
       "@env": ["configs/env"],
       "@enum": ["configs/enum"],
       "@models": ["app/models"],
       "@models/*": ["app/models/*"],
       "@views": ["app/views"],
-      "@controllers": ["app/controllers"]
+      "@controllers": ["app/controllers"],
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

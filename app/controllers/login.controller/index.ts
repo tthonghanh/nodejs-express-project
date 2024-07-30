@@ -1,12 +1,9 @@
-import axios from "axios";
-import { Request, Response } from "express";
-import md5 from "md5";
-import models from "../../models";
 import { ApplicationController } from "@controllers";
 import { UserRoleEnum } from "@models/enums";
-// import passport from 'passport'
-// import passportfacebook from 'passport-facebook'
-
+import axios from "axios";
+import { NextFunction, Request, Response } from "express";
+import md5 from "md5";
+import models from "../../models";
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -52,13 +49,23 @@ export class LoginController extends ApplicationController {
     return res.redirect("/");
   }
 
-  public async destroy(req: Request, res: Response) {
-    req.session.destroy((err: Error) => {
-      if (err) console.log(err);
-      else {
-        res.redirect("/");
+  public async destroy(req: Request, res: Response, next: NextFunction) {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
       }
+      req.session.destroy((err: Error) => {
+        if (err) console.log(err);
+        else {
+          res.redirect("https://accounts.google.com/logout");
+        }
+      });
     });
+
+    // req.logout(function(err) {
+    //   if (err) { return next(err); }
+    //   res.redirect('');
+    // });
   }
 
   public async loginWithGoogle(req: Request, res: Response) {
@@ -67,7 +74,7 @@ export class LoginController extends ApplicationController {
     );
   }
 
-  public async loginRedirect(req: Request, res: Response) {
+  public async loginRedirectGooGle(req: Request, res: Response) {
     const { code } = req.query;
     const {
       data: { access_token },
@@ -90,9 +97,9 @@ export class LoginController extends ApplicationController {
 
     const loginUser = await models.user.findUnique({
       where: {
-        email: user.email
-      }
-    })
+        email: user.email,
+      },
+    });
 
     if (!loginUser) {
       const newUser = await models.user.create({
@@ -100,18 +107,68 @@ export class LoginController extends ApplicationController {
           id: user.id,
           name: user.name,
           email: user.email,
-          role: UserRoleEnum.USER
-        }
-      })
+          role: UserRoleEnum.USER,
+        },
+      });
       req.session.userId = newUser.id;
-    }
-    else req.session.user = loginUser.id;
+    } else req.session.userId = loginUser.id;
+
     req.flash("success", "Login successfully");
 
     res.redirect("/");
   }
 
   public async loginWithFacebook(req: Request, res: Response) {
-
+    res.redirect(
+      `https://www.facebook.com/v13.0/dialog/oauth?client_id=${FACEBOOK_CLIENT_ID}&redirect_uri=${FACEBOOK_REDIRECT_URI}&scope=email`
+    );
   }
+
+  public async loginRedirectFacebook(req: Request, res: Response) {
+    const { code } = req.query;
+    const { data } = await axios({
+      url: "https://graph.facebook.com/v4.0/oauth/access_token",
+      method: "get",
+      params: {
+        client_id: FACEBOOK_CLIENT_ID,
+        client_secret: FACEBOOK_CLIENT_SECRET,
+        redirect_uri: FACEBOOK_REDIRECT_URI,
+        code,
+      },
+    });
+    const { data: user } = await axios({
+      url: "https://graph.facebook.com/me",
+      method: "get",
+      params: {
+        fields: ["id", "email", "name", "picture{url}"].join(","),
+        access_token: data.access_token,
+      },
+      headers: {
+        Authorization: `Bearer ${data.access_token}`,
+      },
+    });
+
+    const loginUser = await models.user.findUnique({
+      where: {
+        email: user.email,
+      },
+    });
+
+    if (!loginUser) {
+      const newUser = await models.user.create({
+        data: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: UserRoleEnum.USER,
+        },
+      });
+      req.session.userId = newUser.id;
+    } else req.session.userId = loginUser.id;
+
+    req.flash("success", "Login successfully");
+    res.redirect("/");
+  }
+
+  public async logoutFacebook(req: Request, res: Response) {}
 }

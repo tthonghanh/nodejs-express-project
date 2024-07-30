@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import cookieParser from "cookie-parser";
 import express, { Express, NextFunction, Request, Response } from "express";
-import fileUpload from "express-fileupload";
+// import fileUpload from "express-fileupload";
 import flash from "express-flash";
 import expressSession from "express-session";
 import createError from "http-errors";
@@ -11,11 +11,18 @@ import { join, resolve } from "path";
 import serverless from "serverless-http";
 import env from "./env";
 import { Route } from "./routes";
-import fs from 'fs-extra'
+// import fs from 'fs-extra'
+import bodyParser from "body-parser";
 import { ProductAdminController } from "../app/controllers";
-import bodyParser from 'body-parser'
-import { fileFilter } from "./multer";
-import path from 'path'
+// import { fileFilter } from "./multer";
+import passport from "passport";
+import passFacebook from "passport-facebook";
+import path from "path";
+import { upload } from "./multer";
+
+const FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
+const FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
+const FACEBOOK_REDIRECT_URI = process.env.FACEBOOK_REDIRECT_URI;
 
 declare module "express-session" {
   interface SessionData {
@@ -32,16 +39,16 @@ declare module "express-session" {
 //       },
 //     });
 
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '/uploads');
-    },
-    filename: function (req, file, cb) {
-      cb(null, new Date().valueOf() + path.extname(file.originalname));
-    }
-  }),
-});
+// const upload = multer({
+//   storage: multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, "/uploads");
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, new Date().valueOf() + path.extname(file.originalname));
+//     },
+//   }),
+// });
 
 class Application {
   private readonly port = env.PORT || "3000";
@@ -50,9 +57,32 @@ class Application {
   // private readonly methodOverride = require("method-override");
   // private storage;
   // private upload;
+  private readonly FacebookStrategy = passFacebook.Strategy;
 
   constructor() {
+    passport.serializeUser(function (user, done) {
+      done(null, user);
+    });
 
+    passport.deserializeUser(function (obj: any, done) {
+      done(null, obj);
+    });
+
+    passport.use(
+      new this.FacebookStrategy(
+        {
+          clientID: FACEBOOK_CLIENT_ID!,
+          clientSecret: FACEBOOK_CLIENT_SECRET!,
+          callbackURL: FACEBOOK_REDIRECT_URI!,
+        },
+        (accessToken: any, refreshToken: any, profile: any, done: any) => {
+          process.nextTick(() => {
+            console.log(accessToken, refreshToken, profile, done);
+            return done(null, profile);
+          });
+        }
+      )
+    );
     this.app.set("views", join(resolve("./app"), "views"));
     this.app.set("view engine", "pug");
 
@@ -73,8 +103,10 @@ class Application {
     );
     this.app.use(flash());
     // this.app.use(fileUpload());
-    this.app.use(bodyParser.urlencoded({extended: false}));
+    this.app.use(bodyParser.urlencoded({ extended: false }));
     // app.use(multer({ storage: storage, fileFilter: fileFilter }));
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
 
     this.app.use(express.static(join(resolve("app"), "assets")));
     this.app.use(
@@ -100,7 +132,11 @@ class Application {
   }
 
   mountRoutes() {
-    this.app.post('/admin/products', <any>upload.fields([{name: 'image'}]), (new ProductAdminController()).create);
+    this.app.post(
+      "/admin/products",
+      upload.single('image'),
+      new ProductAdminController().create
+    );
     this.app.use(Route.draw());
   }
 
