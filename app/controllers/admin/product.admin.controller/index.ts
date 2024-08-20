@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 // import fs from "fs";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import fs from "fs-extra";
+import { storage } from "../../../../configs/firebase";
 import models from "../../../models";
 import { ApplicationController } from "../../application.controller";
 
@@ -22,7 +24,9 @@ export class ProductAdminController extends ApplicationController {
         category: true,
       },
     });
+
     const categories = await models.category.findMany();
+
     res.render("admin/product.admin.view/index", {
       products: products,
       categories: categories,
@@ -43,19 +47,34 @@ export class ProductAdminController extends ApplicationController {
       return res.status(400).send("Image file is required.");
     }
 
+    const storageRef = ref(storage, "images");
+
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+
     // Read image file and convert to base64
     const img = fs.readFileSync(image.path);
     const encode_image = img.toString("base64");
-    const finalImg = {
-      contentType: image.mimetype,
-      image: Buffer.from(encode_image, "base64"),
-    };
+    // const finalImg = {
+    //   contentType: image.mimetype,
+    //   image: Buffer.from(encode_image, "base64"),
+    // };
+
+    const uploadTask = await uploadString(
+      storageRef,
+      encode_image,
+      "base64",
+      metadata
+    );
+
+    const imageUrl = await getDownloadURL(uploadTask.ref);
 
     // Save product with image
     await models.product.create({
       data: {
         productName,
-        image: finalImg.image,
+        image: imageUrl,
         categoryId,
         originalPrice,
         price,

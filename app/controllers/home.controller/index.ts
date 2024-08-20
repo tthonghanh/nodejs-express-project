@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ApplicationController } from "../application.controller";
 import models from "../../models";
+import { Prisma } from "@prisma/client";
 
 export class HomeController extends ApplicationController {
   public async index(req: Request, res: Response) {
@@ -10,11 +11,14 @@ export class HomeController extends ApplicationController {
   }
 
   public async show(req: Request, res: Response) { // req: noi dung nguoi dung gui len tu client
-    const user = await models.user.findUnique({
-      where: {
-        id: req.params.id
-      }
-    })
+    // const user = await models.user.findUnique({
+    //   where: {
+    //     id: req.params.id
+    //   }
+    // })
+
+    const users : { id: string, userName: string }[] = await models.$queryRaw(Prisma.sql`SELECT id, name AS "userName" FROM users WHERE id = ${req.params.id};`);
+    const user = users.length ? users[0] : undefined;
     res.render("home.view/show", {user : user}); // noi dung tra ve cho browser
   }
 }

@@ -11,3 +11,4 @@ export * from "./home.controller";
 export * from "./login.controller";
 export * from "./shop.controller";
 export * from "./user.controller";
+export * from "./feedback.controller";

@@ -8,6 +8,7 @@ import { CheckoutRoute } from "./checkout.route";
 import { LoginRoute } from "./login.route";
 import { ShopRoute } from "./shop.route";
 import { UserRoute } from "./user.route";
+import { FeedbackRoute } from "./feedback.route";
 
 export class Route {
   private static path = Router();
@@ -20,6 +21,7 @@ export class Route {
     this.path.use("/checkouts", CheckoutRoute.draw());
     this.path.use("/auth", LoginRoute.draw());
     this.path.use("/admin", AdminHomeRoute.draw());
+    this.path.use("/feedbacks", FeedbackRoute.draw());
 
     Route.resource(this.path, HomeController, {
       only: [RestActions.Index, RestActions.Show],

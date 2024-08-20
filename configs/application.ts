@@ -1,24 +1,19 @@
+import bodyParser from "body-parser";
 import { exec } from "child_process";
 import cookieParser from "cookie-parser";
 import express, { Express, NextFunction, Request, Response } from "express";
-// import fileUpload from "express-fileupload";
 import flash from "express-flash";
 import expressSession from "express-session";
 import createError from "http-errors";
 import methodOverride from "method-override";
-import multer from "multer";
-import { join, resolve } from "path";
-import serverless from "serverless-http";
-import env from "./env";
-import { Route } from "./routes";
-// import fs from 'fs-extra'
-import bodyParser from "body-parser";
-import { ProductAdminController } from "../app/controllers";
-// import { fileFilter } from "./multer";
 import passport from "passport";
 import passFacebook from "passport-facebook";
-import path from "path";
+import { join, resolve } from "path";
+import serverless from "serverless-http";
+import { ProductAdminController } from "../app/controllers";
+import env from "./env";
 import { upload } from "./multer";
+import { Route } from "./routes";
 
 const FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
 const FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
@@ -30,33 +25,9 @@ declare module "express-session" {
   }
 }
 
-// const storage = multer.diskStorage({
-//       destination: (req, file, cb) => {
-//         cb(null, '/uploads')
-//       },
-//       filename: (req, file, cb) => {
-//         cb(null, file.fieldname + "-" + Date.now());
-//       },
-//     });
-
-// const upload = multer({
-//   storage: multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, "/uploads");
-//     },
-//     filename: function (req, file, cb) {
-//       cb(null, new Date().valueOf() + path.extname(file.originalname));
-//     },
-//   }),
-// });
-
 class Application {
   private readonly port = env.PORT || "3000";
   private readonly app: Express = express();
-  // private session = require('express-session');
-  // private readonly methodOverride = require("method-override");
-  // private storage;
-  // private upload;
   private readonly FacebookStrategy = passFacebook.Strategy;
 
   constructor() {
@@ -134,7 +105,7 @@ class Application {
   mountRoutes() {
     this.app.post(
       "/admin/products",
-      upload.single('image'),
+      upload.single("image"),
       new ProductAdminController().create
     );
     this.app.use(Route.draw());

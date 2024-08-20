@@ -11,26 +11,26 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
-  name     String?
-  role     Int
+  id    String  @id @default(uuid())
+  email String  @unique
+  name  String?
+  role  Int
 
   // Relation
   feedbacks Feedback[]
   orders    Order[]
-  carts    Cart[]
+  carts     Cart[]
   passwords Password[]
 
   @@map("users")
 }
 
 model Password {
-  id       String  @id @default(uuid())
+  id       String    @id @default(uuid())
   password String
-  createAt DateTime @default(now())
+  createAt DateTime  @default(now())
   deleteAt DateTime?
-  userId  String
+  userId   String
 
   // Relation
   user User @relation(fields: [userId], references: [id])
@@ -51,7 +51,7 @@ model Category {
 
 model Product {
   id            String  @id @default(uuid())
-  image         Bytes  @map("image")
+  image         String?  @map("image")
   productName   String  @map("product_name")
   originalPrice Decimal @map("original_price")
   price         Decimal
@@ -68,14 +68,18 @@ model Product {
 }
 
 model Feedback {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   content   String
   productId String
   userID    String?
+  createAt  DateTime @default(now())
+  parentId  String?
 
   // Relation
-  user    User?   @relation(fields: [userID], references: [id], onDelete: SetNull)
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User?      @relation(fields: [userID], references: [id], onDelete: SetNull)
+  product Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  parent  Feedback?  @relation("hierachy", fields: [parentId], references: [id], onDelete: Cascade)
+  childs  Feedback[] @relation("hierachy")
 
   @@map("feedbacks")
 }
@@ -99,7 +103,7 @@ model Order {
   userId           String
 
   // Relation
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   productOnOrders ProductOnOrder[]
 
   @@map("orders")

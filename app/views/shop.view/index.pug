@@ -220,7 +220,7 @@ block content
               .card.product-item.border-0.mb-4
                 a(href=`/shops/${product.id}`)
                   .card-header.product-img.position-relative.overflow-hidden.bg-transparent.border.p-0
-                    img.img-fluid.w-100(src=product.imgLink alt='')
+                    img.img-fluid.w-100(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2hgaK0t0n1HqLSWcWAxIDG2xeQ6w_rqDWCg&s" alt='')
                   .card-body.border-left.border-right.text-center.p-0.pt-4.pb-3
                     h6.text-truncate.mb-3= product.productName
                     .d-flex.justify-content-center
@@ -263,12 +263,9 @@ block content
                   a.page-link(href='#' aria-label='Previous')
                     span(aria-hidden='true') &laquo;
                     span.sr-only Previous
-                li.page-item.active
-                  a.page-link(href='#') 1
-                li.page-item
-                  a.page-link(href='#') 2
-                li.page-item
-                  a.page-link(href='#') 3
+                -for (let num = 1; num <= numberOfPages; num++)
+                  li.page-item(class=`${num==pageNumber ? "active" : ''}`)
+                    a.page-link(href=`${url}pageNumber=${num}`)= num
                 li.page-item
                   a.page-link(href='#' aria-label='Next')
                     span(aria-hidden='true') &raquo;
