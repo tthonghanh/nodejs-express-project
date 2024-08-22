@@ -1,21 +1,9 @@
 import { Request, Response } from "express";
-// import fs from "fs";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import fs from "fs-extra";
-import { storage } from "../../../../configs/firebase";
-import models from "../../../models";
-import { ApplicationController } from "../../application.controller";
-
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'uploads')
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.fieldname + "-" + Date.now());
-//   },
-// });
-
-// const upload = <any>multer({storage: storage}).single("image");
+import { getUploadedImageUrl, storage, } from "@fileUpload";
+import models from "@models";
+import { ApplicationController } from "@controllers";
 
 export class ProductAdminController extends ApplicationController {
   public async index(req: Request, res: Response) {
@@ -47,28 +35,28 @@ export class ProductAdminController extends ApplicationController {
       return res.status(400).send("Image file is required.");
     }
 
-    const storageRef = ref(storage, "images");
+    // const storageRef = ref(storage, "images");
 
-    const metadata = {
-      contentType: "image/jpeg",
-    };
-
-    // Read image file and convert to base64
-    const img = fs.readFileSync(image.path);
-    const encode_image = img.toString("base64");
-    // const finalImg = {
-    //   contentType: image.mimetype,
-    //   image: Buffer.from(encode_image, "base64"),
+    // const metadata = {
+    //   contentType: "image/jpeg",
     // };
 
-    const uploadTask = await uploadString(
-      storageRef,
-      encode_image,
-      "base64",
-      metadata
-    );
+    // // Read image file and convert to base64
+    // const img = fs.readFileSync(image.path);
+    // const encodeImage = img.toString("base64");
+    // // const finalImg = {
+    // //   contentType: image.mimetype,
+    // //   image: Buffer.from(encode_image, "base64"),
+    // // };
 
-    const imageUrl = await getDownloadURL(uploadTask.ref);
+    // const uploadTask = await uploadString(
+    //   storageRef,
+    //   encodeImage,
+    //   "base64",
+    //   metadata
+    // );
+
+    const imageUrl = await getUploadedImageUrl(image.path, 'images');
 
     // Save product with image
     await models.product.create({

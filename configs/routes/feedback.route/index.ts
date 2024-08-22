@@ -1,13 +1,14 @@
+import { FeedbackController } from "@controllers";
+import { RestActions } from "@enum";
+import { Route } from "@routes";
 import { Router } from "express";
-import { Route } from "..";
-import { FeedbackController, ShopController } from "../../../app/controllers";
-import { RestActions } from "../../enum";
 
 export class FeedbackRoute {
   private static path = Router();
+  private static feedbackController = new FeedbackController();
 
   public static draw() {
-    Route.resource(this.path, FeedbackController, {
+    Route.resource(this.path, this.feedbackController, {
       only: [RestActions.Create],
     });
 

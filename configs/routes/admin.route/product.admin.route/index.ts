@@ -1,21 +1,22 @@
 import { ProductAdminController } from "@controllers";
+import { RestActions } from "@enum";
 import { Router } from "express";
 import multer from "multer";
 import { Route } from "../..";
-import { RestActions } from "../../../enum";
 
 const upload = multer({ dest: "uploads/" });
 
 export class ProductAdminRoute {
   private static path = Router();
+  private static productAdminController = new ProductAdminController();
 
   public static draw() {
     this.path.post(
       "/",
       upload.single("image"),
-      new ProductAdminController().create
+      this.productAdminController.create
     );
-    Route.resource(this.path, ProductAdminController, {
+    Route.resource(this.path, this.productAdminController, {
       except: [RestActions.Show],
     });
 

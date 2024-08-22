@@ -1,7 +1,6 @@
+import { ApplicationController } from "@controllers";
+import models from "@models";
 import { Request, Response } from "express";
-import models from "../../models";
-import { ApplicationController } from "../application.controller";
-import { AuthenticationMiddleware } from "../../middlewares/authentication.middleware";
 
 export class CartController extends ApplicationController {
   public async index(req: Request, res: Response) {
@@ -56,9 +55,8 @@ export class CartController extends ApplicationController {
         });
       }
       res.redirect("/shops");
-    }
-    else  {
-      req.flash("error", "You have not logged in yet.")
+    } else {
+      req.flash("error", "You have not logged in yet.");
       res.redirect("/");
     }
   }
@@ -72,7 +70,7 @@ export class CartController extends ApplicationController {
         id: req.params.id,
       },
     });
-    req.flash("success", "Product is deleted from cart")
+    req.flash("success", "Product is deleted from cart");
     res.redirect("/carts");
   }
 }

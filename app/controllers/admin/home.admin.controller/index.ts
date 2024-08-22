@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import models from "../../../models";
-import { ApplicationController } from "../../application.controller";
+import { ApplicationController } from "@controllers";
+import models from "@models";
 
 export class AdminHomeController extends ApplicationController {
   public async index(req: Request, res: Response) {

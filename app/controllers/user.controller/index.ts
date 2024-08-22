@@ -1,11 +1,10 @@
-import { Request, Response } from "express";
-import md5 from "md5";
-import models from "../../models";
-import { ApplicationController } from "../application.controller";
-import { use } from "passport";
+import { ApplicationController } from "@controllers";
 import { EmailOption, sendMail } from "@mail";
-import axios from "axios";
+import models from "@models";
+import { Request, Response } from "express";
 import { google } from "googleapis";
+import md5 from "md5";
+import env from "@env"
 
 export class UserController extends ApplicationController {
   public async new(req: Request, res: Response) {
@@ -48,17 +47,17 @@ export class UserController extends ApplicationController {
 
     const options: EmailOption = {
       to: createdUserEmail,
-      subject: 'CREATED USER FROM QLBH',
-      html: "welcome to store"
+      subject: "CREATED USER FROM QLBH",
+      html: "welcome to store",
     };
 
     const oAuth2Client = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
+      env.googleClientId,
+      env.googleClientSecret,
       "https://developers.google.com/oauthplayground"
     );
 
-    oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+    oAuth2Client.setCredentials({ refresh_token: env.refreshToken });
 
     const accessToken = await oAuth2Client.getAccessToken();
 

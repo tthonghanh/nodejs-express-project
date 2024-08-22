@@ -1,7 +1,7 @@
 import { CheckoutController } from "@controllers";
+import { RestActions } from "@enum";
+import { Route } from "@routes";
 import { Router } from "express";
-import { Route } from "..";
-import { RestActions } from "../../enum";
 
 export class CheckoutRoute {
   private static path = Router();
@@ -9,8 +9,10 @@ export class CheckoutRoute {
 
   public static draw() {
     this.path.route("/payment").post(this.checkoutController.checkoutWithVnPay);
-    this.path.route("/payment/callback").post(this.checkoutController.checkoutRedirect);
-    Route.resource(this.path, CheckoutController, {
+    this.path
+      .route("/payment/callback")
+      .post(this.checkoutController.checkoutRedirect);
+    Route.resource(this.path, this.checkoutController, {
       only: [RestActions.Index, RestActions.New, RestActions.Create],
     });
 

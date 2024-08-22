@@ -1,6 +1,6 @@
+import { ApplicationController } from "@controllers";
+import models from "@models";
 import { Request, Response } from "express";
-import models from "../../models";
-import { ApplicationController } from "../application.controller";
 
 export class FeedbackController extends ApplicationController {
   public async create(req: Request, res: Response) {
@@ -17,7 +17,7 @@ export class FeedbackController extends ApplicationController {
         content,
         productId,
         userID: userId,
-        parentId
+        parentId,
       },
     });
 

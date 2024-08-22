@@ -1,8 +1,8 @@
+import { ApplicationController } from "@controllers";
+import models from "@models";
 import { Prisma } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { Request, Response } from "express";
-import models from "../../models";
-import { ApplicationController } from "../application.controller";
 
 export class ShopController extends ApplicationController {
   public async index(req: Request, res: Response) {
@@ -88,7 +88,7 @@ export class ShopController extends ApplicationController {
       productId: string;
       userName: string;
       level: number;
-      summaryId: string
+      summaryId: string;
     }[] = await models.$queryRaw(Prisma.sql`
       WITH RECURSIVE feedbacks_hierachy AS (
         SELECT

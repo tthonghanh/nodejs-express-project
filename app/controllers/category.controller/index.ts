@@ -1,6 +1,6 @@
+import { ApplicationController } from "@controllers";
+import models from "@models";
 import { Request, Response } from "express";
-import models from "../../models";
-import { ApplicationController } from "../application.controller";
 
 export class CategoryController extends ApplicationController {
   public async index(req: Request, res: Response) {

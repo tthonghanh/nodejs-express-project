@@ -1,32 +1,26 @@
+import { ProductAdminController } from "@controllers";
+import { upload } from "@fileUpload";
 import bodyParser from "body-parser";
 import { exec } from "child_process";
 import cookieParser from "cookie-parser";
 import express, { Express, NextFunction, Request, Response } from "express";
 import flash from "express-flash";
-import expressSession from "express-session";
+import session from "express-session";
 import createError from "http-errors";
 import methodOverride from "method-override";
 import passport from "passport";
 import passFacebook from "passport-facebook";
 import { join, resolve } from "path";
 import serverless from "serverless-http";
-import { ProductAdminController } from "../app/controllers";
 import env from "./env";
-import { upload } from "./multer";
 import { Route } from "./routes";
 
-const FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
-const FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
-const FACEBOOK_REDIRECT_URI = process.env.FACEBOOK_REDIRECT_URI;
-
-declare module "express-session" {
-  interface SessionData {
-    user: string;
-  }
-}
+const FACEBOOK_CLIENT_ID = env.facebookClientId;
+const FACEBOOK_CLIENT_SECRET = env.facebookClientSecret;
+const FACEBOOK_REDIRECT_URI = env.facebookRedirectUri;
 
 class Application {
-  private readonly port = env.PORT || "3000";
+  private readonly port = env.port || "3000";
   private readonly app: Express = express();
   private readonly FacebookStrategy = passFacebook.Strategy;
 
@@ -63,12 +57,14 @@ class Application {
     this.app.use(methodOverride("_method"));
     this.app.use(cookieParser("keyboard cat"));
     this.app.use(
-      expressSession({
+      session({
         secret: "hjjdbjsabca",
-        resave: false,
+        resave: true,
         saveUninitialized: true,
         cookie: {
-          maxAge: 60000,
+          secure: false,
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60 * 3,
         },
       })
     );
@@ -142,7 +138,7 @@ class Application {
       .listen(this.port, () => {
         const url = `http://localhost:${this.port}`;
         console.log(`[server]:⚡️ Server is running at ${url}`);
-        if (env.NODE_ENV === "development") exec(`start microsoft-edge:${url}`);
+        if (env.nodeEnv === "development") exec(`start microsoft-edge:${url}`);
       })
       .on("error", (_error) => {
         return console.log("Error: ", _error.message);
@@ -151,6 +147,4 @@ class Application {
 }
 
 export default new Application();
-function session(arg0: { cookie: { maxAge: number } }): any {
-  throw new Error("Function not implemented.");
-}
+

@@ -1,6 +1,6 @@
+import models from "@models";
 import { User } from "@prisma/client";
 import { Request } from "express";
-import models from "../models";
 
 export class ApplicationMiddleware {
   public static async currentUser(req: Request): Promise<User | null> {

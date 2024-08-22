@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import models from ".";
+import models from "@models";
 
 const seed = async () => {
   for (let i = 0; i < 100; i++) {

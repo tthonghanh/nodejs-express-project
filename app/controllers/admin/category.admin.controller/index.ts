@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import models from "../../../models";
-import { ApplicationController } from "../../application.controller";
+import models from "@models";
+import { ApplicationController } from "@controllers";
 
 export class CategoryAdminController extends ApplicationController {
-
   public async new(req: Request, res: Response) {
     res.render("admin/category.admin.view/new");
   }
@@ -25,7 +24,10 @@ export class CategoryAdminController extends ApplicationController {
         id: id,
       },
     });
-    res.render("admin/category.admin.view/edit", {id: id, category: category});
+    res.render("admin/category.admin.view/edit", {
+      id: id,
+      category: category,
+    });
   }
 
   public async update(req: Request, res: Response) {
@@ -33,7 +35,7 @@ export class CategoryAdminController extends ApplicationController {
     const { name, imgLink } = req.body;
     await models.category.update({
       where: {
-        id: id
+        id: id,
       },
       data: {
         name,

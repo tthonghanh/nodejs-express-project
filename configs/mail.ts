@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { google } from "googleapis";
 import { createTransport } from "nodemailer";
+import env from "@env"
 
 export type EmailOption = {
   from?: string; // email nguồn
@@ -19,17 +20,17 @@ export const sendMail = (
   
   const mailOption = {
     ...options,
-    from: options.from || process.env.EMAIL_NAME, //override field from
+    from: options.from || env.emailName, //override field from
   };
 
   const transporter = createTransport({
     service: "gmail",
     auth: {
       type: "OAuth2",
-      user: process.env.EMAIL_NAME,
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      refreshToken: process.env.REFRESH_TOKEN,
+      user: env.emailName,
+      clientId: env.googleClientId,
+      clientSecret: env.googleClientSecret,
+      refreshToken: env.refreshToken,
       accessToken,
     },
   });

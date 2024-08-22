@@ -1,13 +1,14 @@
 import { DetailController } from "@controllers";
+import { RestActions } from "@enum";
+import { Route } from "@routes";
 import { Router } from "express";
-import { Route } from "..";
-import { RestActions } from "../../enum";
 
 export class DetailRoute {
   private static path = Router();
+  private static detailController = new DetailController();
 
   public static draw() {
-    Route.resource(this.path, DetailController, {
+    Route.resource(this.path, this.detailController, {
       only: [RestActions.Index, RestActions.Show],
     });
 

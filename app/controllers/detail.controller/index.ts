@@ -1,6 +1,6 @@
+import { ApplicationController } from "@controllers";
+import models from "@models";
 import { Request, Response } from "express";
-import { ApplicationController } from "../application.controller";
-import models from "../../models";
 
 export class DetailController extends ApplicationController {
   public async index(req: Request, res: Response) {

@@ -1,22 +1,24 @@
+import { AdminHomeController } from "@controllers";
+import { RestActions } from "@enum";
+import { Route } from "@routes";
 import { Router } from "express";
-import multer from "multer";
-import { Route } from "..";
-import { ProductAdminController } from "../../../app/controllers";
-import { AdminHomeController } from "../../../app/controllers/admin/home.admin.controller";
-import { AuthorizationMiddleware } from "../../../app/middlewares/authorization.middleware";
-import { RestActions } from "../../enum";
 import { CategoryAdminRoute } from "./category.admin.route";
 import { ProductAdminRoute } from "./product.admin.route";
 
 export class AdminHomeRoute {
   private static path = Router();
+  private static adminHomeController = new AdminHomeController();
 
   public static draw() {
-    this.path.use("/", new AuthorizationMiddleware().checkAdmin);
+    this.path.use(
+      "/",
+      this.adminHomeController.validateUserLogin,
+      this.adminHomeController.validateAdmin
+    );
     this.path.use("/products", ProductAdminRoute.draw());
     this.path.use("/categories", CategoryAdminRoute.draw());
 
-    Route.resource(this.path, AdminHomeController, {
+    Route.resource(this.path, this.adminHomeController, {
       only: [RestActions.Index],
     });
 

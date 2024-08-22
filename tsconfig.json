@@ -36,13 +36,17 @@
       "@mail": ["configs/mail"],
       "@env": ["configs/env"],
       "@enum": ["configs/enum"],
+      "@fileUpload": ["configs/fileUpload"],
       "@models": ["app/models"],
       "@models/*": ["app/models/*"],
       "@views": ["app/views"],
       "@controllers": ["app/controllers"],
+      "@routes": ["configs/routes"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
-    // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
+    "typeRoots": [
+      "./typing-stubs"
+    ],                                  /* Specify multiple folders that act like './node_modules/@types'. */
     // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
     // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */

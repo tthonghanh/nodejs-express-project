@@ -1,23 +1,18 @@
 import { ApplicationController } from "@controllers";
+import models from "@models";
 import { UserRoleEnum } from "@models/enums";
 import axios from "axios";
 import { NextFunction, Request, Response } from "express";
 import md5 from "md5";
-import models from "../../models";
+import env from "@env"
 
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
+const CLIENT_ID = env.googleClientId;
+const CLIENT_SECRET = env.googleClientSecret;
+const REDIRECT_URI = env.googleRedirectUri;
 
-const FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
-const FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
-const FACEBOOK_REDIRECT_URI = process.env.FACEBOOK_REDIRECT_URI;
-
-declare module "express-session" {
-  interface SessionData {
-    userId: string;
-  }
-}
+const FACEBOOK_CLIENT_ID = env.facebookClientId;
+const FACEBOOK_CLIENT_SECRET = env.facebookClientSecret;
+const FACEBOOK_REDIRECT_URI = env.facebookRedirectUri;
 
 export class LoginController extends ApplicationController {
   public async index(req: Request, res: Response) {
