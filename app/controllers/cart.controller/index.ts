@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 export class CartController extends ApplicationController {
   public async index(req: Request, res: Response) {
-    const currentUser = await ApplicationController.currentUser(req);
+    const currentUser = req.user;
     const cartItems = await models.cart.findMany({
       where: {
         userId: currentUser!.id,

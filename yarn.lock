@@ -4224,9 +4224,10 @@ express-fileupload@^1.5.1:
   dependencies:
     busboy "^1.6.0"
 
-"express-flash@github:RGBboy/express-flash":
+express-flash@^0.0.2:
   version "0.0.2"
-  resolved "git+ssh://git@github.com/RGBboy/express-flash.git#4639761a3dbed98be9a9f6994dc719836d26b4ff"
+  resolved "https://registry.npmjs.org/express-flash/-/express-flash-0.0.2.tgz"
+  integrity sha512-QVUR0ZZRCaa8+iPHoUQaQJrQWcQuK/Q+19M7IUIdIEtvwhrA/ifHT7y1CVJI41YfGiOQnbGtn3uvd2vOdgu58A==
   dependencies:
     connect-flash "0.1.x"
 

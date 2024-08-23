@@ -23,6 +23,7 @@ export class ProductAdminController extends ApplicationController {
 
   public async new(req: Request, res: Response) {
     const categories = await models.category.findMany();
+
     res.render("admin/product.admin.view/new", { categories: categories });
   }
 
